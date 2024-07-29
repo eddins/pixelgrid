@@ -1,4 +1,18 @@
-function grp = pixelgrid(h)
+function grp_out = pixelgrid(target)
+    arguments
+        target (1,1) {mustBeGraphicsObject} = defaultTarget
+    end
+
+    if isa(target,"matlab.graphics.primitive.Image")
+        im = target;
+    else
+        im = findobj(target,"type","image");
+        if isempty(im)
+            error("pixelgrid:ImageNotFoundInTarget",...
+                "No image found in specified target.")
+        end
+    end
+
     %pixelgrid Superimpose a grid of pixel edges on an image
     %   pixelgrid superimposes a grid of pixel edges on the image in the
     %   current axes.
@@ -43,25 +57,11 @@ function grp = pixelgrid(h)
     %   Steve Eddins
     %   Copyright 2017-2019 The MathWorks, Inc.
 
-    if nargin < 1
-        him = findobj(gca,'type','image');
-    elseif strcmp(h.Type,'axes')
-        him = findobj(h,'type','image');
-    elseif strcmp(h.Type,'image')
-        him = h;
-    else
-        error('Invalid graphics object.')
-    end
+    ax = ancestor(im,'axes');
 
-    if isempty(him)
-        error('Image not found.');
-    end
-
-    hax = ancestor(him,'axes');
-
-    xdata = him.XData;
-    ydata = him.YData;
-    [M,N,~] = size(him.CData);
+    xdata = im.XData;
+    ydata = im.YData;
+    [M,N,~] = size(im.CData);
 
     if M > 1
         pixel_height = diff(ydata) / (M-1);
@@ -104,7 +104,7 @@ function grp = pixelgrid(h)
     xv = [xv1(:) ; xv2(:)];
     yv = [yv1(:) ; yv2(:)];
 
-    hh = hggroup(hax);
+    grp = hggroup(ax);
     background_line_color = 0.6652 * [1 1 1];
     foreground_line_color = 0.7977 * [1 1 1];   
 
@@ -115,7 +115,7 @@ function grp = pixelgrid(h)
     % effects that would cause some lines in the grid to appear brighter than
     % others.
     line(...
-        'Parent',hh,...
+        'Parent',grp,...
         'XData',xv,...
         'YData',yv,...
         'LineWidth',bottom_line_width,...
@@ -124,7 +124,7 @@ function grp = pixelgrid(h)
         'AlignVertexCenters','on',...
         'Visible','off');
     line(...
-        'Parent',hh,...
+        'Parent',grp,...
         'XData',xv,...
         'YData',yv,...
         'LineWidth',top_line_width,...
@@ -136,25 +136,53 @@ function grp = pixelgrid(h)
     % For information about the MarkedClean event that is used below, see
     % "Undocumented HG2 graphics events" (accessed 29-Jul-2024).
     % https://undocumentedmatlab.com/articles/undocumented-hg2-graphics-events
-    addlistener(hax,"MarkedClean",@(~,~) updatePixelGridVisibility(hax,him,hh));
-    addlistener(him,"MarkedClean",@(~,~) updatePixelGridVisibility(hax,him,hh));
+    addlistener(ax,"MarkedClean",@(~,~) updatePixelGridVisibility(ax,im,grp));
+    addlistener(im,"MarkedClean",@(~,~) updatePixelGridVisibility(ax,im,grp));
 
     % Only return an output if requested.
     if nargout > 0
-        grp = hh;
+        grp_out = grp;
     end
 
-    updatePixelGridVisibility(hax,him,hh);
+    updatePixelGridVisibility(ax,im,grp);
 end
 
-function updatePixelGridVisibility(ax,im,gr)
-    if ~(ishandle(ax) && ishandle(im) && ishandle(gr))
+function updatePixelGridVisibility(ax,im,grp)
+    if ~(ishandle(ax) && ishandle(im) && ishandle(grp))
         return
     end
 
     if min(getImagePixelExtentInches(im)) > 0.2
-        set(gr.Children,"Visible","on");
+        set(grp.Children,"Visible","on");
     else
-        set(gr.Children,"Visible","off");
+        set(grp.Children,"Visible","off");
+    end
+end
+
+function t = defaultTarget()
+    r = groot;
+    current_figure = r.CurrentFigure;
+    if ~isempty(current_figure)
+        current_axes = current_figure.CurrentAxes;
+        if ~isempty(current_axes)
+            t = findobj(current_axes,"type","image");
+            if isempty(t)
+                error("pixelgrid:NoImage",...
+                    "No image found in current axes.");
+            end
+        else
+            error("pixelgrid:NoAxes",...
+                "No axes found in current figure.")
+        end
+    else
+        error("pixelgrid:NoFigure",...
+            "No figure found.")
+    end
+end
+
+function mustBeGraphicsObject(target)
+    if ~all(isgraphics(target))
+        error("pixelgrid:InvalidTarget",...
+            "Target must be a graphics object.")
     end
 end
