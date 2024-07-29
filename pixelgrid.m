@@ -1,4 +1,4 @@
-function hout = pixelgrid(h)
+function grp = pixelgrid(h)
     %pixelgrid Superimpose a grid of pixel edges on an image
     %   pixelgrid superimposes a grid of pixel edges on the image in the
     %   current axes.
@@ -141,7 +141,7 @@ function hout = pixelgrid(h)
 
     % Only return an output if requested.
     if nargout > 0
-        hout = hh;
+        grp = hh;
     end
 
     updatePixelGridVisibility(hax,him,hh);
