@@ -1,3 +1,33 @@
+%pixelgrid Superimpose a grid along image pixel edges
+%   pixelgrid superimposes a grid of pixel edges on the image in the
+%   current axes. If the minimum extent an image pixel is greater than 0.2
+%   inches (approximately), then the grid is visible. When viewing an image
+%   with a very high zoom factor, the grid is useful for determining where
+%   each pixel is located, especially in regions where pixels have the same
+%   or very similar colors.
+%
+%   pixelgrid(im) superimposes the grid on the specified image graphics
+%   object.
+%
+%   pixelgrid(target) superimposes the grid on the image found within the
+%   specified graphics target, which is typically a figure or axes object.
+%
+%   group = pixelgrid(___) returns an hggroup object containing the
+%   lines used to draw the grid.
+%
+%   EXAMPLE
+%
+%   Superimpose pixel grid on color image. After zooming in, the grid
+%   becomes visible.
+%
+%       rgb = imread("peppers.png");
+%       imshow(rgb)
+%       pixelgrid
+%       axis([440 455 240 250])
+
+%   Steve Eddins
+%   Copyright 2017-2019 The MathWorks, Inc.
+    
 function grp_out = pixelgrid(target)
     arguments
         target (1,1) {mustBeGraphicsObject} = defaultTarget
@@ -12,50 +42,6 @@ function grp_out = pixelgrid(target)
                 "No image found in specified target.")
         end
     end
-
-    %pixelgrid Superimpose a grid of pixel edges on an image
-    %   pixelgrid superimposes a grid of pixel edges on the image in the
-    %   current axes.
-    %
-    %   pixelgrid(h_ax) superimposes the grid on the image in the specified
-    %   axes.
-    %
-    %   pixelgrid(h_im) superimposes the grid on the specified image.
-    %
-    %   group = pixelgrid(___) returns an hggroup object that contains the two
-    %   lines that are used to draw the grid. One line is thick and darker, and
-    %   the other is thin and lighter. Using two contrasting lines in this way
-    %   guarantees that the grid will be visible regardless of pixel colors.
-    %
-    %   EXAMPLES
-    %
-    %   Superimpose pixel grid on color image. Zoom in.
-    %
-    %       rgb = imread('peppers.png');
-    %       imshow(rgb)
-    %       pixelgrid
-    %       axis([440 455 240 250])
-    %
-    %   Change the colors and line widths of the pixel grid.
-    %
-    %       rgb = imread('peppers.png');
-    %       imshow(rgb)
-    %       h = pixelgrid;
-    %       axis([440 455 240 250])
-    %       h.Children(1).Color = [178 223 138]/255;
-    %       h.Children(1).LineWidth = 2;
-    %       h.Children(2).Color = [31 120 180]/255;
-    %       h.Children(2).LineWidth = 4;
-    %
-    %   LIMITATIONS
-    %
-    %   This function is intended for use when looking at a zoomed-in image
-    %   region with a relatively small number of rows and columns. If you use
-    %   this function on a typical, full-size image without zooming in, the
-    %   image will not be visible under the grid lines.
-
-    %   Steve Eddins
-    %   Copyright 2017-2019 The MathWorks, Inc.
 
     ax = ancestor(im,"axes");
 
