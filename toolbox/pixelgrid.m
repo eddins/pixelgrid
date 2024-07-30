@@ -100,7 +100,10 @@ function grp_out = pixelgrid(target)
     % draw the grid. Place them into an hggroup.
     %
 
-    grp = hggroup(ax);
+    grp = hggroup(...
+        Parent = ax,...
+        Tag = "pixelgrid",...
+        Visible = false);
     % bottom_line_color = lab2rgb([40 0 0]);
     bottom_line_color = 0.3695 * [1 1 1];
     % top_line_color = lab2rgb([70 0 0]);
@@ -119,8 +122,7 @@ function grp_out = pixelgrid(target)
         LineWidth = bottom_line_width, ...
         Color = bottom_line_color,     ...
         LineStyle = "-",               ...
-        AlignVertexCenters = "on",     ...
-        Visible = "off" )
+        AlignVertexCenters = "on")
 
     line(...
         Parent = grp,               ...
@@ -129,8 +131,7 @@ function grp_out = pixelgrid(target)
         LineWidth = top_line_width, ...
         Color = top_line_color,     ...
         LineStyle = "--",           ...
-        AlignVertexCenters = "on",  ...
-        Visible = "off");
+        AlignVertexCenters = "on")
 
     %
     % Create listeners that will update the visibility of the pixel grid in
@@ -158,9 +159,9 @@ function updatePixelGridVisibility(ax,im,grp)
     end
 
     if min(getImagePixelExtentInches(im)) > 0.2
-        set(grp.Children,"Visible","on");
+        grp.Visible = true;
     else
-        set(grp.Children,"Visible","off");
+        grp.Visible = false;
     end
 end
 
