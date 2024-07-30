@@ -20,10 +20,10 @@
 %   Superimpose pixel grid on color image. After zooming in, the grid
 %   becomes visible.
 %
-%       rgb = imread("peppers.png");
+%       rgb = imread("pixelgrid-sample.jpg");
 %       imshow(rgb)
 %       pixelgrid
-%       axis([440 455 240 250])
+%       axis([800 825 255 272])
 
 %   Steve Eddins
 %   Copyright 2017-2019 The MathWorks, Inc.
@@ -101,8 +101,10 @@ function grp_out = pixelgrid(target)
     %
 
     grp = hggroup(ax);
-    bottom_line_color = 0.6652 * [1 1 1];
-    top_line_color = 0.7977 * [1 1 1];   
+    % bottom_line_color = lab2rgb([40 0 0]);
+    bottom_line_color = 0.3695 * [1 1 1];
+    % top_line_color = lab2rgb([70 0 0]);
+    top_line_color = 0.6708 * [1 1 1];
 
     bottom_line_width = 0.5;
     top_line_width = 0.5;
