@@ -61,6 +61,7 @@ classdef pixelgrid_test < matlab.unittest.TestCase
             % execute without error.
             delete(im);
             fig.Position = [1 1 1.1 1] .* fig.Position;
+            drawnow
         end
 
         function noImageInFigure(test_case)
