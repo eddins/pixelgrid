@@ -1,9 +1,21 @@
+[![View Pixel Grid on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/71622-pixel-grid) [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=eddins/pixelgrid&file=toolbox/gettingStarted.mlx)
+
 # Pixel Grid
-The MATLAB function `pixelgrid` superimposes a grid of pixel edges on an image. The purpose is to easily visualize pixel extents when zooming in closely on an image. The grid is drawing using lines with contrasting colors so that it is visible regardless of the colors of the underlying pixels.
+
+The MATLAB function `pixelgrid` superimposes a grid of pixel edges on an image. The purpose is to easily visualize pixel extents when zooming in closely on an image. When viewing an image with a very high zoom factor, the grid is useful for determining the extent of each pixel, especially in regions where pixels have the same or very similar colors.
+
+The pixel grid automatically becomes visible when the image pixels are larger than a certain size on the display.
 
 ![screen shot](misc/pixel-grid-screenshot.png)
 
-[![View Pixel Grid on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://www.mathworks.com/matlabcentral/fileexchange/71622-pixel-grid)
+## Installation
 
-## Limitation
-This function is intended for use when looking at a zoomed-in image region with a relatively small number of rows and columns. If you use this function on a typical, full-size image without zooming in, the image will be completely obscured under the grid lines.
+<instructions>
+
+## Getting Started
+
+<pointer to gettingStarted.mlx file>
+
+
+
+
