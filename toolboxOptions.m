@@ -116,7 +116,7 @@ function opts = toolboxOptions
     imzm_addon.Name = "Image Zoom Level and Pan Utilities";
     imzm_addon.Identifier = "5f282b56-740d-4296-8a73-c75e61f8c6e0";
     imzm_addon.EarliestVersion = "1.0.0";
-    imzm_addon.LatestVersion = "";
+    imzm_addon.LatestVersion = "1.0.0";
     imzm_addon.DownloadURL = "https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/5f282b56-740d-4296-8a73-c75e61f8c6e0/e66c4b14-2069-45e2-8060-ab4d289ae2e5/packages/mltbx";
     opts.RequiredAddons = imzm_addon;
 
