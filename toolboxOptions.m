@@ -8,7 +8,7 @@ function opts = toolboxOptions
 
     opts = matlab.addons.toolbox.ToolboxOptions(toolbox_folder,identifier);
 
-    opts.ToolboxName = "pixelgrid Toolbox";
+    opts.ToolboxName = "Pixel Grid";
 
     % Version number of the toolbox. Use semantic version numbers of the
     % form MAJOR.MINOR.PATCH, such as "2.0.1". Increment the MAJOR version
@@ -16,7 +16,7 @@ function opts = toolboxOptions
     % when you add functionality in a backward compatible manner. Increment
     % the PATCH version when you make backward compatible bug fixes.
     
-    opts.ToolboxVersion = "1.0.0";
+    opts.ToolboxVersion = "2.0.0";
 
     % Folders to add to MATLAB path during toolbox installation, specified
     % as a string vector. When specifying ToolboxMatlabPath, include the
@@ -37,7 +37,7 @@ function opts = toolboxOptions
     % .mltbx extension, MATLAB appends the extension automatically when it
     % creates the file.
 
-    opts.OutputFile = fullfile("release","pixelgrid Toolbox");
+    opts.OutputFile = fullfile("release","pixelgrid");
     
     % Latest MATLAB release that the toolbox is compatible with, specified
     % as a string using the format RXXXXx, for example, "R2023a". If there
@@ -51,7 +51,7 @@ function opts = toolboxOptions
     % If there is no minimum restriction, specify MinimumMatlabRelease as
     % empty ("").
 
-    opts.MinimumMatlabRelease = "";
+    opts.MinimumMatlabRelease = "R2019b";
 
     % Supported platforms
 
@@ -61,11 +61,18 @@ function opts = toolboxOptions
     platforms.MatlabOnline = true;
     opts.SupportedPlatforms = platforms; 
 
-    % opts.Description = 
+    opts.Description = "The MATLAB function pixelgrid superimposes a " + ...
+        "grid of pixel edges on an image. If the image is zoomed in " + ...
+        "so that individual pixels are sufficiently large, then the " + ...
+        "pixel grid automatically becomes visible. The grid can " + ...
+        "be useful for determining where each pixel is located, " + ...
+        "especially in regions where pixels have the same or " + ...
+        "very similar colors.";
 
-    % opts.Summary = 
+    opts.Summary = "The MATLAB function pixelgrid shows the edges " + ...
+        "of image pixels.";
 
-    % opts.AuthorName = 
+    opts.AuthorName = "Steve Eddins";
 
     % opts.AuthorEmail =
 
@@ -74,7 +81,7 @@ function opts = toolboxOptions
     % Path to the toolbox image file. Can be specified as a relative or
     % absolute path.
     %
-    % opts.ToolboxImageFile = 
+    opts.ToolboxImageFile = "misc/pixel-grid-screenshot.png";
 
     % Files to be packaged in the toolbox, string vector. By default,
     % ToolboxFiles contains the list of all files in toolboxFolder.
@@ -106,7 +113,12 @@ function opts = toolboxOptions
     % installation, specified as a struct vector. See the doc for
     % matlab.addons.toolbox.ToolboxOptions for more information.
 
-    % opts.RequiredAddons = 
+    imzm_addon.Name = "Image Zoom Level and Pan Utilities";
+    imzm_addon.Identifier = "5f282b56-740d-4296-8a73-c75e61f8c6e0";
+    imzm_addon.EarliestVersion = "1.0.0";
+    imzm_addon.LatestVersion = "";
+    imzm_addon.DownloadURL = "https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/5f282b56-740d-4296-8a73-c75e61f8c6e0/e66c4b14-2069-45e2-8060-ab4d289ae2e5/packages/mltbx";
+    opts.RequiredAddons = imzm_addon;
 
     % Additional required software packages to be downloaded and installed
     % during toolbox installation, specified as a struct vector. See the
