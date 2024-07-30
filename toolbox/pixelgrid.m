@@ -1,10 +1,10 @@
 %pixelgrid Superimpose a grid along image pixel edges
 %   pixelgrid superimposes a grid of pixel edges on the image in the
-%   current axes. If the minimum extent an image pixel is greater than 0.2
-%   inches (approximately), then the grid is visible. When viewing an image
-%   with a very high zoom factor, the grid is useful for determining where
-%   each pixel is located, especially in regions where pixels have the same
-%   or very similar colors.
+%   current axes. If the minimum extent of an image pixel is greater than
+%   0.2 inches (approximately), then the grid is visible. When viewing an
+%   image with a very high zoom factor, the grid is useful for determining
+%   where each pixel is located, especially in regions where pixels have
+%   the same or very similar colors.
 %
 %   pixelgrid(im) superimposes the grid on the specified image graphics
 %   object.
@@ -25,8 +25,8 @@
 %       pixelgrid
 %       axis([800 825 255 272])
 
-%   Steve Eddins
 %   Copyright 2017-2019 The MathWorks, Inc.
+%   Copyright 2024 Steven L. Eddins
     
 function grp_out = pixelgrid(target)
     arguments
