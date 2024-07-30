@@ -45,6 +45,13 @@ function grp_out = pixelgrid(target)
 
     ax = ancestor(im,"axes");
 
+    % If there is already a pixel grid present, delete it before creating a
+    % new one.
+    existing_grid = findobj(ax, Type = "hggroup", Tag = "pixelgrid");
+    if ~isempty(existing_grid)
+        delete(existing_grid)
+    end
+
     %
     % Calculate the vertices for a line object that will draw the entire
     % grid.

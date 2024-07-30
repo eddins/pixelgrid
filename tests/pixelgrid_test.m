@@ -64,6 +64,30 @@ classdef pixelgrid_test < matlab.unittest.TestCase
             drawnow
         end
 
+        function createAnotherPixelGrid(test_case)
+            % Create a pixel grid. Delete the image out of the axes and add
+            % another image to it. Create a pixel grid again. Verify that
+            % there is only one pixel grid present and that it is the
+            % second one created.
+
+            fig = figure;
+            addTeardown(test_case,@() close(fig));
+            ax = axes(Parent = fig);
+            im1 = image(ax,ones(3,3));
+            pixelgrid(im1);
+            drawnow
+
+            delete(im1)
+            drawnow
+
+            im2 = image(CData = ones(4,4), Parent = ax);
+            grid2 = pixelgrid(im2);
+            drawnow
+
+            grids = findobj(ax, Type = "hggroup", Tag = "pixelgrid");
+            test_case.verifyEqual(grids,grid2);
+        end
+
         function noImageInFigure(test_case)
             fig = figure;
             addTeardown(test_case,@() close(fig));
