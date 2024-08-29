@@ -33,6 +33,8 @@ function grp_out = pixelgrid(target)
         target (1,1) {mustBeGraphicsObject} = defaultTarget
     end
 
+    requiresIMZM();
+
     if isa(target,"matlab.graphics.primitive.Image")
         im = target;
     else
@@ -160,6 +162,15 @@ function grp_out = pixelgrid(target)
     end
 end
 
+function requiresIMZM()
+    if isempty(which("getImagePixelExtentInches"))
+        error("pixelgrid:RequiresIMZM",...
+            "Pixel Grid requires the add-on " + ...
+            """Image Zoom and Pan Utilities"" " + ...
+            "(https://www.mathworks.com/matlabcentral/fileexchange/167316-image-zoom-level-and-pan-utilities)")
+    end
+end
+
 function updatePixelGridVisibility(ax,im,grp)
     if ~(ishandle(ax) && ishandle(im) && ishandle(grp))
         return
@@ -180,16 +191,16 @@ function t = defaultTarget()
         if ~isempty(current_axes)
             t = findobj(current_axes,"type","image");
             if isempty(t)
-                error("pixelgrid:NoImage",...
-                    "No image found in current axes.");
+                throwAsCaller(MException("pixelgrid:NoImage",...
+                    "No image found in current axes."))
             end
         else
-            error("pixelgrid:NoAxes",...
-                "No axes found in current figure.")
+            throwAsCaller(MException("pixelgrid:NoAxes",...
+                "No axes found in current figure."))
         end
     else
-        error("pixelgrid:NoFigure",...
-            "No figure found.")
+        throwAsCaller(MException("pixelgrid:NoFigure", ...
+            "No figure found."));
     end
 end
 
