@@ -24,6 +24,14 @@
 %       imshow(rgb)
 %       pixelgrid
 %       axis([800 825 255 272])
+%
+%   LIMITATIONS
+%
+%   When running inside a live script, the pixel grid visibility will not
+%   automatically adjust when zooming using the axes toolbar. To update the
+%   pixel grid after zooming using the axes toolbar, press the "Update
+%   Code" button, move the call to pixelgrid after the code that modifies
+%   the x- and y-limits, and execute the script or code section again. 
 
 %   Copyright 2017-2019 The MathWorks, Inc.
 %   Copyright 2024 Steven L. Eddins
@@ -142,17 +150,19 @@ function grp_out = pixelgrid(target)
         LineStyle = "--",           ...
         AlignVertexCenters = "on")
 
-    %
-    % Create listeners that will update the visibility of the pixel grid in
-    % response to graphics changes that affect the pixel extent.
-    %
-    % For information about the MarkedClean event that is used below, see
-    % "Undocumented HG2 graphics events" (accessed 29-Jul-2024).
-    % https://undocumentedmatlab.com/articles/undocumented-hg2-graphics-events
-    %
+    if ~isInsideLiveEditor
+        %
+        % Create listeners that will update the visibility of the pixel grid in
+        % response to graphics changes that affect the pixel extent.
+        %
+        % For information about the MarkedClean event that is used below, see
+        % "Undocumented HG2 graphics events" (accessed 29-Jul-2024).
+        % https://undocumentedmatlab.com/articles/undocumented-hg2-graphics-events
+        %
 
-    addlistener(ax,"MarkedClean",@(~,~) updatePixelGridVisibility(ax,im,grp));
-    addlistener(im,"MarkedClean",@(~,~) updatePixelGridVisibility(ax,im,grp));
+        addlistener(ax,"MarkedClean",@(~,~) updatePixelGridVisibility(ax,im,grp));
+        addlistener(im,"MarkedClean",@(~,~) updatePixelGridVisibility(ax,im,grp));
+    end
 
     updatePixelGridVisibility(ax,im,grp);    
 
@@ -163,11 +173,16 @@ function grp_out = pixelgrid(target)
 end
 
 function requiresIMZM()
-    if isempty(which("getImagePixelExtentInches"))
+    try
+        needs_updated_imzm = ~imzm.version.hasCapability("units_fix");
+    catch
+        needs_updated_imzm = true;
+    end
+    if needs_updated_imzm
         error("pixelgrid:RequiresIMZM",...
-            "Pixel Grid requires the add-on " + ...
-            """Image Zoom and Pan Utilities"" " + ...
-            "(https://www.mathworks.com/matlabcentral/fileexchange/167316-image-zoom-level-and-pan-utilities)")
+            "Missing or outdated add-on ""Image Zoom and Pan Utilities"". " + ...
+            "Download and install the latest version from " + ...
+            "https://www.mathworks.com/matlabcentral/fileexchange/167316-image-zoom-level-and-pan-utilities.")
     end
 end
 
@@ -176,7 +191,7 @@ function updatePixelGridVisibility(ax,im,grp)
         return
     end
 
-    if min(getImagePixelExtentInches(im)) > 0.2
+    if min(getImagePixelExtentInches(im)) > 0.25
         grp.Visible = true;
     else
         grp.Visible = false;
@@ -209,4 +224,8 @@ function mustBeGraphicsObject(target)
         error("pixelgrid:InvalidTarget",...
             "Target must be a graphics object.")
     end
+end
+
+function tf = isInsideLiveEditor
+    tf = feature("LiveEditorRunning");
 end
