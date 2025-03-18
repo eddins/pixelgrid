@@ -224,7 +224,3 @@ function mustBeGraphicsObject(target)
             "Target must be a graphics object.")
     end
 end
-
-function tf = isInsideLiveEditor
-    tf = feature("LiveEditorRunning");
-end
