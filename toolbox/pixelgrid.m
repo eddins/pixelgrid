@@ -30,8 +30,7 @@
 %   When running inside a live script, the pixel grid visibility will not
 %   automatically adjust when zooming using the axes toolbar. To update the
 %   pixel grid after zooming using the axes toolbar, press the "Update
-%   Code" button, move the call to pixelgrid after the code that modifies
-%   the x- and y-limits, and execute the script or code section again. 
+%   Code" button and then execute the script or code section again. 
 
 %   Copyright 2017-2019 The MathWorks, Inc.
 %   Copyright 2024 Steven L. Eddins
@@ -150,21 +149,21 @@ function grp_out = pixelgrid(target)
         LineStyle = "--",           ...
         AlignVertexCenters = "on")
 
-    if ~isInsideLiveEditor
-        %
-        % Create listeners that will update the visibility of the pixel grid in
-        % response to graphics changes that affect the pixel extent.
-        %
-        % For information about the MarkedClean event that is used below, see
-        % "Undocumented HG2 graphics events" (accessed 29-Jul-2024).
-        % https://undocumentedmatlab.com/articles/undocumented-hg2-graphics-events
-        %
+    %
+    % Create listeners that will update the visibility of the pixel grid in
+    % response to graphics changes that affect the pixel extent.
+    %
+    % For information about the MarkedClean event that is used below, see
+    % "Undocumented HG2 graphics events" (accessed 29-Jul-2024).
+    % https://undocumentedmatlab.com/articles/undocumented-hg2-graphics-events
+    %
 
-        addlistener(ax,"MarkedClean",@(~,~) updatePixelGridVisibility(ax,im,grp));
-        addlistener(im,"MarkedClean",@(~,~) updatePixelGridVisibility(ax,im,grp));
-    end
+    updater_fcn = @(~,~) updatePixelGridVisibility(ax,im,grp);
+    addlistener(ax,"MarkedClean", updater_fcn);
+    addlistener(im,"MarkedClean", updater_fcn);
 
-    updatePixelGridVisibility(ax,im,grp);    
+    % Make sure the update code gets called at least once now.
+    updater_fcn();
 
     % Only return an output if requested.
     if nargout > 0
