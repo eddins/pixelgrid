@@ -1,5 +1,9 @@
 # Pixel Grid: Release Notes
 
+## Version 2.0.3
+
+There are no code or functional changes in this release. It is only for resolving an issue with the File Exchange connection.
+
 ## Version 2.0.2
 
 **Live scripts.** Previously, when running inside a live script, the pixel grid visibility did not automatically update in response to zooming operations using the axes toolbar. This limitation still exists, and the documentation now includes tips for working around it. *#limitation*
