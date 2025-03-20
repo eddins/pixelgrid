@@ -1,5 +1,9 @@
 # Pixel Grid: Release Notes
 
+## Version 2.0.4
+
+Removed the add-on dependency information from toolboxOptions.m because the intended workflow is not clear.
+
 ## Version 2.0.3
 
 There are no code or functional changes in this release. It is only for resolving an issue with the File Exchange connection.

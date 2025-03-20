@@ -16,7 +16,7 @@ function opts = toolboxOptions
     % when you add functionality in a backward compatible manner. Increment
     % the PATCH version when you make backward compatible bug fixes.
     
-    opts.ToolboxVersion = "2.0.3";
+    opts.ToolboxVersion = "2.0.4";
 
     % Folders to add to MATLAB path during toolbox installation, specified
     % as a string vector. When specifying ToolboxMatlabPath, include the
@@ -108,17 +108,6 @@ function opts = toolboxOptions
     % include the relative or absolute paths to the files.
 
     % opts.ToolboxJavaPath = 
-
-    % Required add-ons to be downloaded and installed during toolbox
-    % installation, specified as a struct vector. See the doc for
-    % matlab.addons.toolbox.ToolboxOptions for more information.
-
-    imzm_addon.Name = "Image Zoom Level and Pan Utilities";
-    imzm_addon.Identifier = "5f282b56-740d-4296-8a73-c75e61f8c6e0";
-    imzm_addon.EarliestVersion = "1.0.0";
-    imzm_addon.LatestVersion = "1.0.0";
-    imzm_addon.DownloadURL = "https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/5f282b56-740d-4296-8a73-c75e61f8c6e0/e66c4b14-2069-45e2-8060-ab4d289ae2e5/packages/mltbx";
-    opts.RequiredAddons = imzm_addon;
 
     % Additional required software packages to be downloaded and installed
     % during toolbox installation, specified as a struct vector. See the
